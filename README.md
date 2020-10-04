@@ -23,12 +23,17 @@ RESTful API for Wikipedia-like articles using Node.js and Express
     <tr>
         <td>GET</td>
         <td>/articles</td>
-        <td>Get all of the articles</td>
+        <td>Get all of the articles.</td>
     </tr>
     <tr>
         <td>POST</td>
         <td>/articles</td>
-        <td>Add a new article</td>
+        <td>Add a new article.</td>
+    </tr>
+    <tr>
+        <td>DELETE</td>
+        <td>/articles</td>
+        <td>Deletes all articles.</td>
     </tr>
 </table>
 
