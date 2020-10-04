@@ -21,7 +21,7 @@ app.use(express.static("public"));
 
 /**
  * MongoDB and mongoose setup, including schema and models
- * for Post
+ * for Article.
  */
 mongoose.connect(process.env.MONGODB_SRV_ADDRESS, {
   useNewUrlParser: true,
@@ -36,9 +36,46 @@ const Article = mongoose.model(
   })
 );
 
+/**
+ * GET method for /articles route.
+ *
+ * Returns all of the Articles in the collection,
+ * or an error message, if encountered.
+ */
 app.get("/articles", (req, res) => {
   Article.find((err, articles) => {
-    res.send(articles);
+    if (!err) res.send(articles);
+    else res.send(err);
+  });
+});
+
+/**
+ * POST method for /articles route.
+ *
+ * Adds a new Article, with title and contents.
+ * Returns an error message, if unsuccessful.
+ */
+app.post("/articles", (req, res) => {
+  const newArticle = new Article({
+    title: req.body.title,
+    content: req.body.content,
+  });
+  newArticle.save((err) => {
+    if (!err) res.send("Successfully added a new article!");
+    else res.send(err);
+  });
+});
+
+/**
+ * DELETE method for /articles route.
+ *
+ * Deletes all articles in Article collection.
+ * Returns an error message, if unsuccessful.
+ */
+app.delete("/articles", (req, res) => {
+  Article.deleteMany((err) => {
+    if (!err) res.send("Successfully deleted all articles.");
+    else res.send(err);
   });
 });
 
