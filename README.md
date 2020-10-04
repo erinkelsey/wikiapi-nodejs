@@ -1,6 +1,8 @@
 # Wiki-API
 
-RESTful API for Wikipedia-like articles using Node.js and Express
+RESTful API for Wikipedia-like articles using Node.js and Express.
+
+Hosted Example Endpoint: https://wikiapi-nodejs.herokuapp.com/
 
 ### Install
 
