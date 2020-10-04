@@ -87,6 +87,79 @@ app
   });
 
 /**
+ * Chained route for GET, .... methods
+ * for the /articles/:articleTitle route.
+ */
+app
+  .route("/articles/:articleTitle")
+
+  /**
+   * GET method for /articles/:articleTitle route.
+   *
+   * Returns the Article with title of articleTitle, if it exists,
+   * else returns message that it was not found.
+   * Returns an error message, if error encountered.
+   */
+  .get((req, res) => {
+    Article.findOne({ title: req.params.articleTitle }, (err, article) => {
+      if (err) res.send(err);
+      else if (!article) res.send("No article matching that title was found.");
+      else res.send(article);
+    });
+  })
+
+  /**
+   * PUT method for /articles/:articleTitle route.
+   *
+   * Replaces the document with title of articleTitle, if there
+   * is a document with that title.
+   * REturns an error message, if one is encountered.
+   */
+  .put((req, res) => {
+    Article.update(
+      { title: req.params.articleTitle },
+      { title: req.body.title, content: req.body.content },
+      { overwrite: true },
+      (err) => {
+        if (!err) res.send("Successfully updated article.");
+        else res.send(err);
+      }
+    );
+  })
+
+  /**
+   * PATCH method for /articles/:articleTitle route.
+   *
+   * Only updates the fields in the document that are sent.
+   * Updates the document if there is one with a title of
+   * articleTitle.
+   * REturns an error message, if one is encountered.
+   */
+  .patch((req, res) => {
+    Article.update(
+      { title: req.params.articleTitle },
+      { $set: req.body },
+      (err) => {
+        if (!err) res.send("Successfully updated article.");
+        else res.send(err);
+      }
+    );
+  })
+
+  /**
+   * DELETE method for /articles/:articleTitle route.
+   *
+   * Deletes the article with title of articleTitle.
+   * Returns an error message, if one is encountered.
+   */
+  .delete((req, res) => {
+    Article.deleteOne({ title: req.params.articleTitle }, (err) => {
+      if (!err) res.send("Successfully deleted article.");
+      else res.send(err);
+    });
+  });
+
+/**
  * Start up server to listen on port 3000.
  */
 app.listen(process.env.PORT || 3000, () => {
